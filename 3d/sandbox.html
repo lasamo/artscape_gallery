@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Museum Experience - Sandbox</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div id="ui">
+        <div>FPS Museum Explorer</div>
+        <div style="font-size: 12px; color: #888; margin-top: 8px;">Position: <span id="pos">0, 0, 0</span></div>
+    </div>
+
+    <div id="crosshair">
+        <div class="crosshair-line crosshair-h"></div>
+        <div class="crosshair-line crosshair-v"></div>
+        <div class="crosshair-dot"></div>
+    </div>
+
+    <div id="paintingInfo"></div>
+
+    <div id="instructions">
+        <strong>Controls:</strong><br>
+        WASD or Arrows: Move<br>
+        Mouse: Look around (click to lock)<br>
+        ESC: Unlock mouse
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="assets/museum-3d.js"></script>
+</body>
+</html>
