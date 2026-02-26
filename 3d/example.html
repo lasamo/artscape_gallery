@@ -361,15 +361,24 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Camera movement
-            const forward = new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw));
-            const right = new THREE.Vector3(Math.cos(yaw), 0, Math.sin(yaw));
+            // Update camera rotation first
+            camera.rotation.order = 'YXZ';
+            camera.rotation.y = yaw;
+            camera.rotation.x = pitch;
+
+            // Camera movement - use camera's actual direction
+            const direction = new THREE.Vector3();
+            camera.getWorldDirection(direction);
+            
+            // Forward vector (keep horizontal for ground-based movement)
+            const forward = new THREE.Vector3(direction.x, 0, direction.z).normalize();
+            const right = new THREE.Vector3(-direction.z, 0, direction.x).normalize();
 
             let movement = new THREE.Vector3();
             if (keys['w'] || keys['ArrowUp']) movement.add(forward);
             if (keys['s'] || keys['ArrowDown']) movement.sub(forward);
-            if (keys['a']) movement.sub(right);
-            if (keys['d']) movement.add(right);
+            if (keys['a'] || keys['ArrowLeft']) movement.sub(right);
+            if (keys['d'] || keys['ArrowRight']) movement.add(right);
 
             if (movement.lengthSq() > 0) {
                 movement.normalize().multiplyScalar(moveSpeed);
@@ -381,11 +390,6 @@
             camera.position.y = Math.min(roomHeight - 0.5, camera.position.y);
             camera.position.x = Math.max(-roomWidth / 2 + 0.5, Math.min(roomWidth / 2 - 0.5, camera.position.x));
             camera.position.z = Math.max(-roomDepth / 2 + 0.5, Math.min(roomDepth / 2 - 0.5, camera.position.z));
-
-            // Update camera rotation
-            camera.rotation.order = 'YXZ';
-            camera.rotation.y = yaw;
-            camera.rotation.x = pitch;
 
             // Update UI
             document.getElementById('pos').textContent = 
